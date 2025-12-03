@@ -1,26 +1,11 @@
-import csv
-import re
-
-with open("input.txt", newline="", encoding="utf-8") as f:
-    reader = csv.reader(f, delimiter=",")
-    rows = [row for row in reader if any(field.strip() for field in row)]
-
-print(rows[0][0])  # each row is a list of strings, quotes handled correctly
-
-
-PATTERN = re.compile(r"^\s*([+-]?\d+)\s*-\s*([+-]?\d+)\s*$")
+with open("input.txt", encoding="utf-8") as f:
+    ranges = f.read().strip().split(",")
 
 
 def parse_input(input: str):
-    match = PATTERN.match(input)
+    parts = input.split("-")
 
-    if not match:
-        raise ValueError("Invalid Input")
-
-    return int(match.group(1)), int(match.group(2))
-
-
-print(parse_input("300-240"))
+    return int(parts[0]), int(parts[1])
 
 
 def check_validity(set: tuple):
@@ -60,8 +45,5 @@ def check_all(list_of_ranges: list):
     return sum_of_invalid_ids
 
 
-result = check_validity((1188511880, 1188511890))
-
-print(result)
-
-print(check_all(rows[0]))
+if __name__ == "__main__":
+    print(check_all(ranges))
